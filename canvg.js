@@ -595,6 +595,22 @@
 					p.applyTransform([1, 0, 0, 1, this.p.x || 0.0, this.p.y || 0.0]);
 				}
 			}
+			
+			// translate3d (only works if thirds coordinates is zero!)
+			this.Type.translate3d = function(s) {
+				var a = svg.ToNumberArray(s);
+				if (a[2] != 0) return null; // exception
+				this.p = svg.CreatePoint(s);
+				this.apply = function(ctx) {
+					ctx.translate(this.p.x || 0.0, this.p.y || 0.0);
+				}
+				this.unapply = function(ctx) {
+					ctx.translate(-1.0 * this.p.x || 0.0, -1.0 * this.p.y || 0.0);
+				}
+				this.applyToPoint = function(p) {
+					p.applyTransform([1, 0, 0, 1, this.p.x || 0.0, this.p.y || 0.0]);
+				}
+			}
 
 			// rotate
 			this.Type.rotate = function(s) {
